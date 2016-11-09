@@ -5,12 +5,13 @@
 //  Created by 郭健 on 2016/11/9.
 //  Copyright © 2016年 海城. All rights reserved.
 //
-
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
 #import "ViewController.h"
 
 #define IOS9 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0 ? YES : NO)
 @interface ViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
-
+    
     UIImageView *_imageView;
     UIImageView *_imageViewR;
 }
@@ -48,7 +49,7 @@
 
 #pragma mark -- 按钮回调
 -(void)btnClick:(UIButton *)sender{
-
+    
     if (IOS9) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"获取图片" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -56,13 +57,22 @@
             
             //判断是否支持相机
             UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                
                 //相机
-                UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-                imagePickerController.delegate = self;
-                imagePickerController.allowsEditing = YES;
-                imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                UIImagePickerController *imagePickerVc = [[UIImagePickerController alloc] init];
+                imagePickerVc.delegate = self;
+                // set appearance / 改变相册选择页的导航栏外观
+                imagePickerVc.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+                imagePickerVc.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
                 
+                
+                UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+                if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+                    imagePickerVc.sourceType = sourceType;
+                    imagePickerVc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+                    [self presentViewController:imagePickerVc animated:YES completion:nil];
+                } else {
+                    NSLog(@"模拟器中无法打开照相机,请在真机中使用");
+                }
             }];
             
             [alertController addAction:defaultAction];
@@ -86,7 +96,7 @@
         //弹出视图 使用UIViewController的方法
         [self presentViewController:alertController animated:YES completion:nil];
     }else{
-    
+        
         UIActionSheet *sheet;
         
         //判断是否支持相机
@@ -94,16 +104,16 @@
             
             sheet = [[UIActionSheet alloc] initWithTitle:@"获取图片" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"取消" otherButtonTitles:@"拍照",@"从相册选取", nil];
         }else{
-        
+            
             sheet = [[UIActionSheet alloc] initWithTitle:@"获取图片" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"取消" otherButtonTitles:@"从相册选取", nil];
         }
         [sheet showInView:self.view];
     }
 }
 
-#pragma mark -- 调用UIActionSheet 
+#pragma mark -- 调用UIActionSheet
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-
+    
     NSUInteger sourceType = 0;
     
     //判断是否支持相机
@@ -134,7 +144,7 @@
 
 #pragma mark -- 保存图片到沙盒
 -(void) saveImage:(UIImage *)currentImage withName:(NSString *)imageName{
-
+    
     NSData *imageData = UIImageJPEGRepresentation(currentImage, 1); //1为不能缩放保存
     //获取沙盒目录
     NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:imageName];
@@ -144,7 +154,7 @@
 
 #pragma mark -- 调用完方法 ，选择完成后调用该方法
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-
+    
     [picker dismissViewControllerAnimated:YES completion:^{}];
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     
@@ -185,3 +195,4 @@
 
 
 @end
+

@@ -354,7 +354,7 @@
 				DEVELOPMENT_TEAM = 6G8SMPXAX7;
 				INFOPLIST_FILE = SystemCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SeaCity.SystemCamera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SeaCity.ThePlate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -366,7 +366,7 @@
 				DEVELOPMENT_TEAM = 6G8SMPXAX7;
 				INFOPLIST_FILE = SystemCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SeaCity.SystemCamera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SeaCity.ThePlate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -414,6 +414,7 @@
 				2DEA75FE1DD2327F003C799D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2DEA75FF1DD2327F003C799D /* Build configuration list for PBXNativeTarget "SystemCameraUITests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +423,7 @@
 				2DEA76011DD2327F003C799D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
